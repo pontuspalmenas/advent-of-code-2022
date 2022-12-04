@@ -4,17 +4,16 @@ import util.FileUtil
 import java.lang.IllegalStateException
 
 fun main(args: Array<String>) {
-    val l = FileUtil("input/day02.txt").lines()
+    val l = FileUtil("input/day02.txt").lines().map { it.replace("X","A").replace("Y","B").replace("Z","C") }
     println(solve1(l))
-    //println(solve2(ll))
+    println(solve2(l))
 }
 
 fun solve1(l: List<String>): Int {
     var x = 0
 
     l.forEach {
-        val s = it.replace("X","A").replace("Y","B").replace("Z","C")
-        x += score(s[0], s[2])
+        x += score(it[0], it[2])
     }
 
     return x
@@ -39,17 +38,24 @@ fun score(a: Char, b: Char): Int {
     throw IllegalStateException("uh oh")
 }
 
-fun solve2(ll: List<List<Int>>): Int {
-    return ll.map { it.sum() }.sortedDescending().take(3).sum()
+fun solve2(l: List<String>): Int {
+    var x = 0
+
+    l.forEach {
+        x += score(it[0], needed(it[0], it[2]))
+    }
+
+    return x
 }
 
 fun needed(a: Char, b: Char): Char {
     if (b == 'A') return needToLose(a)
-    if (b == 'B') return needToDraw(a)
+    if (b == 'B') return a
     if (b == 'C') return needToWin(a)
     throw IllegalStateException("uh oh")
 }
 
+// a + 1 % 3
 fun needToWin(c: Char): Char {
     when (c) {
         'A' -> return 'B'
@@ -59,11 +65,13 @@ fun needToWin(c: Char): Char {
     throw IllegalStateException("uh oh")
 }
 
+// a + 2 % 3
 fun needToLose(c: Char): Char {
-    throw IllegalStateException("uh oh")
-}
-
-fun needToDraw(c: Char): Char {
+    when (c) {
+        'A' -> return 'C'
+        'B' -> return 'A'
+        'C' -> return 'B'
+    }
     throw IllegalStateException("uh oh")
 }
 
