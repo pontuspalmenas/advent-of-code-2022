@@ -42,29 +42,16 @@ class VFS {
         cwd.files.add(File(s, size))
     }
 
-    fun calcThatWeirdSumBro(dir: Dir): Int {
+    fun used(): Int {
+        return used(root)
+    }
+
+    private fun used(dir: Dir): Int {
         var sum = 0
 
-        println("${dir.name}: ${dir.files.sumOf { it.size }}")
         sum += dir.files.sumOf { it.size }
-        sum += dir.dirs.sumOf { calcThatWeirdSumBro(it) }
-
-        if (sum < 10000) {
-            sumOfDirsLessThan10kTotal += sum
-        }
+        sum += dir.dirs.sumOf { sumForPart1(it) }
 
         return sum
-    }
-
-    fun printTree() {
-        printTree(root, 0)
-    }
-
-    fun printTree(dir: Dir, depth: Int) {
-        print("${" ".repeat(depth*2)}- ${dir.name} (dir)\n")
-        dir.files.forEach {
-            print("${" ".repeat(depth*2+2)}- ${it.name} (file, size=${it.size})\n")
-        }
-        dir.dirs.forEach { printTree(it, depth+1) }
     }
 }
