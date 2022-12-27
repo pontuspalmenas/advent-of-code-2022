@@ -10,6 +10,6 @@ fun main(args: Array<String>) {
 
 class Day22(input: List<String>) {
     fun solve1(): Int {
-
+        return -1
     }
 }
