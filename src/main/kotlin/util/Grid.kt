@@ -24,4 +24,11 @@ class Grid<T>(val default: T) {
         grid[y][x] = value
     }
 
+    operator fun get(x: Int, y: Int): T {
+        if (x >= width || y >= height || x < 0 || y < 0) {
+            throw IllegalStateException("Grid out of bounds: ($x,$y) does not fit in ($width,$height)")
+        }
+
+        return grid[y][x]
+    }
 }
